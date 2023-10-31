@@ -1,0 +1,44 @@
+{% include "header.html" %}
+
+<!-- Page Header-->
+<header
+  class="masthead"
+  style="background-image: url('../static/assets/img/header.png')"
+>
+  <div class="container position-relative px-4 px-lg-5">
+    <div class="row gx-4 gx-lg-5 justify-content-center">
+      <div class="col-md-10 col-lg-8 col-xl-7">
+        <div class="site-heading">
+          <h1>Café Point</h1>
+          <span class="subheading">A list of trendy places and information about them </span>
+        </div>
+      </div>
+    </div>
+  </div>
+</header>
+<!-- Main Content-->
+<div class="container">
+    <div class="row">
+      <!-- Post preview-->
+        <div class="col-xs-8 col-sm-6">
+          {% for cafe in all_cafes %}
+            {{ cafe.name }}, <br>{{ cafe.location }}
+            <div class="edit-delete-btn " style="float: right">
+              <a class="btn btn-info text-uppercase" href="#!">Info</a>
+              <a class="btn btn-warning text-uppercase" href="{{ url_for('edit_cafe', cafe_id=cafe.id) }}">Edit</a>
+              <a class="btn btn-danger text-uppercase" href="{{ url_for('delete_cafe', cafe_id=cafe.id) }}">Delete</a>
+            </div>
+            <hr class="my-4" />
+          {% endfor %}
+        </div>
+        <!-- MAP preview-->
+        <div class="col-xs-8 col-sm-6 "  >
+          {{ map | safe}}
+        </div>
+
+
+    </div>
+
+</div>
+
+{% include "footer.html" %}
