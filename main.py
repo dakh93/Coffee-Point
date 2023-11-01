@@ -52,10 +52,87 @@ def create_map_with_all_cafes(cafes):
 def get_all_cafes():
     result = db.session.execute(db.select(Cafe))
     cafes = result.scalars().all()
-    print(cafes[0])
     cafes_map = create_map_with_all_cafes(cafes)
 
-    return render_template("index.html", all_cafes=cafes, map=cafes_map._repr_html_())
+    return render_template("index.html", all_cafes=cafes[-4:], map=cafes_map._repr_html_())
+
+
+@app.route('/all-cafes')
+def show_all_cafes():
+    result = db.session.execute(db.select(Cafe))
+    cafes = result.scalars().all()
+
+    return render_template("all-cafes.html", all_cafes=cafes)
+
+
+@app.route('/cafe-info/<int:cafe_id>', methods=["GET"])
+def cafe_info(cafe_id):
+    cafe = db.get_or_404(Cafe, cafe_id)
+    return render_template("cafe-info.html", cafe=cafe)
+
+
+
+@app.route('/all-cafes-wifi')
+def show_all_cafes_wifi():
+    result = db.session.execute(db.select(Cafe))
+    cafes = result.scalars().all()
+    cafes = [cafe for cafe in cafes if cafe.has_wifi is True]
+
+    return render_template("all-cafes.html", all_cafes=cafes)
+
+
+@app.route('/all-cafes-wc')
+def show_all_cafes_wc():
+    result = db.session.execute(db.select(Cafe))
+    cafes = result.scalars().all()
+    cafes = [cafe for cafe in cafes if cafe.has_toilet is True]
+
+    return render_template("all-cafes.html", all_cafes=cafes)
+
+
+@app.route('/all-cafes-meetings')
+def show_all_cafes_meeting():
+    result = db.session.execute(db.select(Cafe))
+    cafes = result.scalars().all()
+    cafes = [cafe for cafe in cafes if cafe.can_take_calls is True]
+
+    return render_template("all-cafes.html", all_cafes=cafes)
+
+
+@app.route('/all-cafes-sockets')
+def show_all_cafes_sockets():
+    result = db.session.execute(db.select(Cafe))
+    cafes = result.scalars().all()
+    cafes = [cafe for cafe in cafes if cafe.has_sockets is True]
+
+    return render_template("all-cafes.html", all_cafes=cafes)
+
+
+@app.route("/new-cafe", methods=["GET", "POST"])
+def add_new_cafe():
+    form = CreateCafeForm()
+
+    if form.validate_on_submit():
+        new_cafe = Cafe(
+            name=form.name.data,
+            location=form.location.data,
+            seats=form.seats.data,
+            coffee_price=form.coffee_price.data,
+            has_sockets=form.has_sockets.data,
+            has_toilet=form.has_toilet.data,
+            has_wifi=form.has_wifi.data,
+            can_take_calls=form.can_take_calls.data,
+            map_url=form.map_url.data,
+            img_url=form.img_url.data,
+            lat=form.lat.data,
+            lon=form.lon.data
+        )
+        db.session.add(new_cafe)
+        db.session.commit()
+        return redirect(url_for("get_all_cafes"))
+
+    return render_template("create-cafe.html", form=form)
+
 @app.route("/delete/<int:cafe_id>")
 def delete_cafe(cafe_id):
     cafe_to_delete = db.get_or_404(Cafe, cafe_id)

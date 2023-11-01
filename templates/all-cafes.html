@@ -9,7 +9,7 @@
     <div class="row gx-4 gx-lg-5 justify-content-center">
       <div class="col-md-10 col-lg-8 col-xl-7">
         <div class="site-heading">
-          <h1>Café Point</h1>
+          <h1>All Cafés</h1>
           <span class="subheading">A list of trendy places and information about them </span>
           <a class="btn btn-success text-uppercase mt-5" href="{{ url_for('add_new_cafe') }}">Report New Café</a>
         </div>
@@ -19,11 +19,22 @@
 </header>
 <!-- Main Content-->
 <div class="container">
+    <div class="row mb-5">
+      <div class="col-sm-12">
+          <a class="btn btn-outline-dark text-uppercase btn-block btn-sm" href="{{ url_for('show_all_cafes_wifi') }}">WiFi</a>
+          <a class="btn btn-outline-dark text-uppercase btn-block btn-sm" href="{{ url_for('show_all_cafes_wc') }}">WC</a>
+          <a class="btn btn-outline-dark text-uppercase btn-block btn-sm" href="{{ url_for('show_all_cafes_meeting') }}">Meetings</a>
+          <a class="btn btn-outline-dark text-uppercase btn-block btn-sm" href="{{ url_for('show_all_cafes_sockets') }}">Sockets</a>
+      </div>
+    </div>
+</div>
+<div class="container">
     <div class="row">
+
       <!-- Post preview-->
-        <div class="col-xs-8 col-sm-6">
+        <div class="col-xs-12 col-sm-12">
           {% for cafe in all_cafes %}
-            {{ cafe.name }}, <br>{{ cafe.location }}
+            {{ cafe.name }}, {{ cafe.location }}
             {% if cafe.has_wifi  %}
               <img src = "../static/assets/img/wifi.svg" alt="WiFi"/>
             {% endif %}
@@ -45,13 +56,6 @@
             <hr class="my-4" />
           {% endfor %}
         </div>
-        <div class="col-xs-4 col-sm-6">
-          <!-- MAP preview-->
-          {{ map | safe}}
-        </div>
-    </div>
-    <div class="d-flex justify-content-center mb-4">
-      <a class="btn btn-primary text-uppercase" href="{{ url_for('show_all_cafes') }}">See all cafes</a>
     </div>
 
 </div>

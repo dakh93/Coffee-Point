@@ -1,0 +1,80 @@
+{% from "bootstrap5/form.html" import render_form %}
+{% block content %}
+{% include "header.html" %}
+
+<!-- Page Header -->
+<header class="masthead" style="background-image: url('{{ cafe.img_url }}')">
+
+
+  <div class="container position-relative px-4 px-lg-5">
+    <div class="row gx-4 gx-lg-5 justify-content-center">
+      <div class="col-md-10 col-lg-8 col-xl-7">
+        <div class="page-heading">
+          <h1>Info</h1>
+        </div>
+      </div>
+    </div>
+  </div>
+</header>
+
+<main class="mb-4">
+  <div class="container">
+    <div class="row">
+      <div class="col-lg-8 col-md-10 mx-auto">
+        <div class="fw-bold">
+          <img src = "../static/assets/img/location-bubble.png" width="32" height="32" alt="Location"/>
+          {{ cafe.name }}, {{ cafe.location }}
+        </div>
+        <div class="fw-bold">
+          <img src = "../static/assets/img/seats.png" width="32" height="32" alt="Cafe Seats"/>
+          {{ cafe.seats }}
+        </div>
+        <div class="fw-bold">
+          <img src = "../static/assets/img/coffee-cup.png" width="32" height="32" alt="Coffe Price"/>
+          {{ cafe.coffee_price }}
+        </div>
+        <div class="fw-bold">
+          <img src = "../static/assets/img/socket.png" width="32" height="32" alt="Map"/>
+          {% if cafe.has_sockets:  %}
+            <img src = "../static/assets/img/yes.png" width="32" height="32" alt="YES"/>
+          {% else: %}
+            <img src = "../static/assets/img/no.png" width="32" height="32" alt="NO"/>
+          {% endif %}
+        </div>
+        <div class="fw-bold">
+          <img src = "../static/assets/img/wc.png" width="32" height="32" alt="WC"/>
+          {% if cafe.has_toilet:  %}
+            <img src = "../static/assets/img/yes.png" width="32" height="32" alt="YES"/>
+          {% else: %}
+            <img src = "../static/assets/img/no.png" width="32" height="32" alt="NO"/>
+          {% endif %}
+        </div>
+        <div class="fw-bold">
+          <img src = "../static/assets/img/wifi.png" width="32" height="32" alt="Map"/>
+          {% if cafe.has_wifi:  %}
+            <img src = "../static/assets/img/yes.png" width="32" height="32" alt="YES"/>
+          {% else: %}
+            <img src = "../static/assets/img/no.png" width="32" height="32" alt="NO"/>
+          {% endif %}
+        </div>
+        <div class="fw-bold">
+          <img src = "../static/assets/img/meeting.png" width="32" height="32" alt="Map"/>
+          {% if cafe.can_take_calls:  %}
+            <img src = "../static/assets/img/yes.png" width="32" height="32" alt="YES"/>
+          {% else: %}
+            <img src = "../static/assets/img/no.png" width="32" height="32" alt="NO"/>
+          {% endif %}
+        </div>
+        <div class="fw-bold">
+          <img src = "../static/assets/img/map.png" width="32" height="32" alt="Map"/>
+          <a class="btn btn-warning btn-sm" href="{{ cafe.map_url }}">Show On Map</a>
+        </div>
+        <div class="fw-bold">
+          <img src = "../static/assets/img/compass.png" width="32" height="32" alt="Compass"/>
+          {{ cafe.lat }}, {{ cafe.lon }}
+        </div>
+      </div>
+    </div>
+  </div>
+</main>
+{% include "footer.html" %} {% endblock %}
